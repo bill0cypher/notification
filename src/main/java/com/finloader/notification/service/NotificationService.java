@@ -2,6 +2,7 @@ package com.finloader.notification.service;
 
 import com.finloader.notification.model.Notification;
 import com.finloader.notification.repo.NotificationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 

@@ -2,14 +2,14 @@ package com.finloader.notification.listener;
 
 import com.finloader.notification.model.Notification;
 import com.finloader.notification.service.NotificationService;
-import org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Component
+@Slf4j
 public class NotificationListener {
 
     private final NotificationService notificationService;
@@ -18,8 +18,9 @@ public class NotificationListener {
         this.notificationService = notificationService;
     }
 
-    @SqsListener(value = "top-organizations-queue", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
-    public void onCompaniesLoaded(List<Notification> message) throws ExecutionException, InterruptedException {
+    @SqsListener("top-organizations-queue")
+    public void onCompaniesLoaded(List<Notification> message) {
+        log.info("Trying to save notifications...");
         notificationService.saveAll(message);
     }
 }
